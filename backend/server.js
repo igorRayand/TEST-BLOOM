@@ -1,22 +1,46 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const colors = require("colors");
-const monsterRoutes = require("./routes/monsterRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
-const connectDB = require("./config/db");
+const axios = require('axios');
 
 dotenv.config();
 
-connectDB();
 const app = express();
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send("API is running successfuly");
+const token = process.env.BEARER_TOKEN;
+
+app.get('/search', (req, res) => {
+    axios.get('https://api.twitter.com/2/tweets/search/recent?query='+req.query.q+'&tweet.fields=attachments,author_id,created_at,entities,geo,id,in_reply_to_user_id,lang,possibly_sensitive,referenced_tweets,source,text,withheld&expansions=author_id,referenced_tweets.id&user.fields=description,created_at', {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    })
+    .then(response => {
+        res.json(response.data.data);
+    })
+    .catch(error => {
+        res.json(error);
+    });
+});
+app.get('/users/:userId', (req, res) => {
+    axios.get('https://api.twitter.com/2/users/'+req.params.userId, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    })
+        .then(response => {
+        res.json(response.data.data);
+    })
+    .catch(error => {
+        res.json(error);
+    });
 });
 
-app.use("/api/monster", monsterRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
