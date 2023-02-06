@@ -7,9 +7,9 @@ import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import UserProfileModal from './UserProfileModal';
+import UserProfileModal from './modals/UserProfileModal';
 import { Button } from '@mui/material';
-import TweetCarouselModal from './TweetCarouselModal';
+import TweetCarouselModal from './modals/TweetCarouselModal';
 
 const TweetCard = ({tweet, array, key}) => {
     return (

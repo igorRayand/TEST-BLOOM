@@ -12,8 +12,8 @@ const App = () => {
 
   return (
     <>
-      <SearchBar tweets={tweets}  setTweets={setTweets} />
-      <ShowTweets tweets={tweets} />
+      <SearchBar tweets={tweets} setTweets={setTweets} />
+      <ShowTweets tweets={tweets} setTweets={setTweets} />
     </>
   )
 }
